@@ -1,0 +1,6 @@
+framework module Pods_open_helperTests {
+  umbrella header "Pods-open-helperTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

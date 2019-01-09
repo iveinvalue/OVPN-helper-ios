@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import GoogleMobileAds
+
+
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -14,10 +17,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
 
-    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
+         GADMobileAds.configure(withApplicationID: "ca-app-pub-0355430122346055~8485987501")
         return true
     }
+    /*
+    func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        GADMobileAds.configure(withApplicationID: "ca-app-pub-0355430122346055~8485987501")
+        return true
+    }*/
+
+    /*
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication: Any]?) -> Bool {
+        // Override point for customization after application launch.
+        //Thread.sleep(forTimeInterval: 0.5)
+        GADMobileAds.configure(withApplicationID: "ca-app-pub-0355430122346055~8485987501")
+        return true
+    }*/
 
     func applicationWillResignActive(_ application: UIApplication) {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
@@ -39,8 +55,44 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+        //clearAllFile()
+        //print("close")
     }
 
-
+    func clearTempFolder() {
+        let fileManager = FileManager.default
+        let tempFolderPath = NSTemporaryDirectory()
+        do {
+            let filePaths = try fileManager.contentsOfDirectory(atPath: tempFolderPath)
+            for filePath in filePaths {
+                try fileManager.removeItem(atPath: tempFolderPath + filePath)
+            }
+        } catch {
+            print("Could not clear temp folder: \(error)")
+        }
+    }
+    
+    func clearAllFile() {
+        let fileManager = FileManager.default
+        
+        let paths = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first!
+        
+        print("Directory: \(paths)")
+        
+        do
+        {
+            let fileName = try fileManager.contentsOfDirectory(atPath: paths)
+            
+            for file in fileName {
+                // For each file in the directory, create full path and delete the file
+                let filePath = URL(fileURLWithPath: paths).appendingPathComponent(file).absoluteURL
+                try fileManager.removeItem(at: filePath)
+            }
+        }catch let error {
+            print(error.localizedDescription)
+        }
+    }
+    
+    
 }
 

@@ -1,0 +1,29 @@
+PODS:
+  - EMPageViewController (3.0.0)
+  - Google-Mobile-Ads-SDK (7.37.0)
+  - PKHUD (5.2.0)
+  - Realm (3.13.0):
+    - Realm/Headers (= 3.13.0)
+  - Realm/Headers (3.13.0)
+  - RealmSwift (3.13.0):
+    - Realm (= 3.13.0)
+  - ZAlertView (1.0.4)
+
+DEPENDENCIES:
+  - EMPageViewController
+  - Google-Mobile-Ads-SDK
+  - PKHUD (~> 5.0)
+  - RealmSwift
+  - ZAlertView
+
+SPEC CHECKSUMS:
+  EMPageViewController: 8e0abc2b2f53f56a83044527eadbb56bd71ae3e3
+  Google-Mobile-Ads-SDK: d028682d7450749a1955679da050eaf70d997b3e
+  PKHUD: dd5357ac65f26115c35c4a68e9b328053326c5fe
+  Realm: 5edd2ee65406aef591a4f9895de5a3440e51b3d8
+  RealmSwift: be5ebc7930e37cd3376b41cec7f21984528aaa16
+  ZAlertView: 59fffdb4e37a01df461835566d5101052b8af953
+
+PODFILE CHECKSUM: 61806d136fee41c20226171db496188484c9cf3e
+
+COCOAPODS: 1.4.0

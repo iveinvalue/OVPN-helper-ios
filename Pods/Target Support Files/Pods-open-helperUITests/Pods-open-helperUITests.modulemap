@@ -1,0 +1,6 @@
+framework module Pods_open_helperUITests {
+  umbrella header "Pods-open-helperUITests-umbrella.h"
+
+  export *
+  module * { export * }
+}
