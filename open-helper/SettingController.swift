@@ -32,7 +32,7 @@ class SettingController: UITableViewController {
         }
         
         if indexPath.section == 0 && indexPath.row == 1 {
-            let dialog = ZAlertView(title: "Version", message: "1.0.1(2)", closeButtonText: "OK", closeButtonHandler: { alertView in alertView.dismissAlertView()
+            let dialog = ZAlertView(title: "Version", message: "1.0.3(4)", closeButtonText: "OK", closeButtonHandler: { alertView in alertView.dismissAlertView()
             })
             dialog.show()
         }

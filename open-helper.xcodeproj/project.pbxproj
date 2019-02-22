@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		28CE29ACA1FE91874F1420B3 /* Pods_open_helperTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7531231DDEA3D323DD6CC8A5 /* Pods_open_helperTests.framework */; };
 		310823BBE0C12CF617995E5D /* Pods_open_helper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C5B843521C968C63D19886E /* Pods_open_helper.framework */; };
+		CE71E03F221FD098004DA029 /* InfoController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE71E03E221FD098004DA029 /* InfoController.swift */; };
 		CE985DF121D8ED9B00DC7EBA /* page.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE985DF021D8ED9B00DC7EBA /* page.swift */; };
 		CEBDB216213548B5009A7BE1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDB215213548B5009A7BE1 /* AppDelegate.swift */; };
 		CEBDB218213548B5009A7BE1 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CEBDB217213548B5009A7BE1 /* ViewController.swift */; };
@@ -47,6 +48,7 @@
 		8FC73409726B9A701541D2D7 /* Pods-open-helperTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-open-helperTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-open-helperTests/Pods-open-helperTests.debug.xcconfig"; sourceTree = "<group>"; };
 		BAEA1394AF124EACB647B354 /* Pods-open-helperUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-open-helperUITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-open-helperUITests/Pods-open-helperUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		C35D872F96A5880BD01D43E2 /* Pods-open-helperTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-open-helperTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-open-helperTests/Pods-open-helperTests.release.xcconfig"; sourceTree = "<group>"; };
+		CE71E03E221FD098004DA029 /* InfoController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoController.swift; sourceTree = "<group>"; };
 		CE985DF021D8ED9B00DC7EBA /* page.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = page.swift; sourceTree = "<group>"; };
 		CEBDB212213548B5009A7BE1 /* open-helper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "open-helper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CEBDB215213548B5009A7BE1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -151,6 +153,7 @@
 				CEBDB221213548B6009A7BE1 /* Info.plist */,
 				CEE860A52137EF6700923B39 /* SettingController.swift */,
 				CE985DF021D8ED9B00DC7EBA /* page.swift */,
+				CE71E03E221FD098004DA029 /* InfoController.swift */,
 			);
 			path = "open-helper";
 			sourceTree = "<group>";
@@ -472,6 +475,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CEE860A62137EF6700923B39 /* SettingController.swift in Sources */,
+				CE71E03F221FD098004DA029 /* InfoController.swift in Sources */,
 				CEBDB218213548B5009A7BE1 /* ViewController.swift in Sources */,
 				CE985DF121D8ED9B00DC7EBA /* page.swift in Sources */,
 				CEBDB216213548B5009A7BE1 /* AppDelegate.swift in Sources */,

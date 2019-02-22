@@ -33,18 +33,13 @@ class vpn_data : Object {
     @objc dynamic var name : String = ""
 }
 
+var info_data = ["", "", "", "", "", "", ""]
+var ad = 0
 
-class ViewController: UITableViewController, UIDocumentInteractionControllerDelegate ,GADRewardBasedVideoAdDelegate , GADInterstitialDelegate  {
-    
-    var ad = 0
-    var docController:UIDocumentInteractionController!
+class ViewController: UITableViewController {
+
     var fin : Results<vpn_data>? = nil
-    var click = -1
-    var rewardBasedVideo: GADRewardBasedVideoAd?
-    var interstitial: GADInterstitial!
-    var coin = 0
-    var code = "ca-app-pub-0355430122346055/2142589367"//"ca-app-pub-3940256099942544/1712485313"
-    var code2 = "ca-app-pub-0355430122346055/7989866313"
+    var bannerView: GADBannerView!
     
     @objc func go_setting(_ button:UIBarButtonItem!){
         let ViewController = self.storyboard?.instantiateViewController(withIdentifier: "SettingController") as! SettingController
@@ -135,7 +130,7 @@ class ViewController: UITableViewController, UIDocumentInteractionControllerDele
                     let text2 = NSString(data: data, encoding: String.Encoding.ascii.rawValue)! as String
                     print(text2)
                     if(text2.contains("ad")){
-                        self.ad = 1
+                        ad = 1
                     }
                     DispatchQueue.main.async {
                         self.sort_refresh(sort: sort)
@@ -185,15 +180,12 @@ class ViewController: UITableViewController, UIDocumentInteractionControllerDele
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        rewardBasedVideo = GADRewardBasedVideoAd.sharedInstance()
-        rewardBasedVideo?.delegate = self
-        rewardBasedVideo?.load(GADRequest(),
-                               withAdUnitID: code)
+        bannerView = GADBannerView(adSize: kGADAdSizeSmartBannerPortrait)
+        addBannerViewToView(bannerView)
         
-        interstitial = GADInterstitial(adUnitID: code2)
-        let request = GADRequest()
-        interstitial.load(request)
-        interstitial.delegate = self
+        bannerView.adUnitID = "ca-app-pub-0355430122346055/2046107822"
+        bannerView.rootViewController = self
+        bannerView.load(GADRequest())
         
         navigationController?.navigationBar.setBackgroundImage(UIImage(), for: UIBarMetrics.default)
         navigationController?.navigationBar.shadowImage = UIImage()
@@ -239,171 +231,49 @@ class ViewController: UITableViewController, UIDocumentInteractionControllerDele
         return cell
     }
     
-    private func documentInteractionControllerViewControllerForPreview(controller: UIDocumentInteractionController) -> UIViewController {
-        return self
-    }
-    private func documentInteractionControllerDidEndPreview(controller: UIDocumentInteractionController) {
-        docController = nil
-    }
+    
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         //print("section: \(indexPath.section)")
         print("row: \(indexPath.row)")
 
-        click = indexPath.row
+        //click = indexPath.row
+
+        info_data[0] = fin![indexPath.row].title
+        info_data[1] = fin![indexPath.row].name
+        info_data[2] = fin![indexPath.row].speed.description
+        info_data[3] = fin![indexPath.row].session.description
+        info_data[4] = fin![indexPath.row].ping.description
+        info_data[5] = fin![indexPath.row].flag
+        info_data[6] = fin![indexPath.row].open
         
-        if(self.ad == 1){
-            if rewardBasedVideo?.isReady == true {
-                rewardBasedVideo?.present(fromRootViewController: self)
-            }else{
-                print("video fail")
-                if (coin == 2){
-                    if interstitial.isReady {
-                        interstitial.present(fromRootViewController: self)
-                    }else{
-                        popup_go()
-                    }
-                }
-                else if (coin == 3){
-                    popup_go()
-                }else{
-                    //popup_go()
-                }
-            }
-        }else{
-            popup_go()
-        }
-        
-        
-        
+        let ViewController = self.storyboard?.instantiateViewController(withIdentifier: "InfoController") as! InfoController
+        self.navigationController?.pushViewController(ViewController, animated: true)
         
     }
     
-    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
-                            didRewardUserWith reward: GADAdReward) {
-        print("Reward received with currency: \(reward.type), amount \(reward.amount).")
-        
-        coin = 1
-    }
-    
-    func rewardBasedVideoAdDidReceive(_ rewardBasedVideoAd:GADRewardBasedVideoAd) {
-        print("Reward based video ad is received.")
-        
-        
-    }
-    
-    func rewardBasedVideoAdDidOpen(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        print("Opened reward based video ad.")
-    }
-    
-    func rewardBasedVideoAdDidStartPlaying(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        print("Reward based video ad started playing.")
-        
-    }
-    
-    func rewardBasedVideoAdDidCompletePlaying(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        print("Reward based video ad has completed.")
-        coin = 0
-    }
-    
-    func rewardBasedVideoAdDidClose(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        print("Reward based video ad is closed.")
-        rewardBasedVideo?.load(GADRequest(),withAdUnitID: code)
-        if (coin == 1){
-            coin = 0
-            popup_go()
-        }
-    }
-    
-    func rewardBasedVideoAdWillLeaveApplication(_ rewardBasedVideoAd: GADRewardBasedVideoAd) {
-        print("Reward based video ad will leave application.")
-    }
-    
-    func rewardBasedVideoAd(_ rewardBasedVideoAd: GADRewardBasedVideoAd,
-                            didFailToLoadWithError error: Error) {
-        print("Reward based video ad failed to load.")
-        coin = 2
-    }
-    
-    func popup_go(){
-        let file = fin![click].name + ".ovpn"
-        //print(file)
-        let myData = fin![click].open.data(using: String.Encoding.utf8)!
-        let resultData = NSData(base64Encoded: myData, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)!
-        
-        let resultNSString = NSString(data: resultData as Data, encoding: String.Encoding.utf8.rawValue)!
-        let resultString = resultNSString as String
-        
-        let text = resultString
-        //print(resultString)
-        
-        if let dir = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first {
-            let fileURL = dir.appendingPathComponent(file)
-            //writing
-            do {
-                try text.write(to: fileURL, atomically: true, encoding: .utf8)
-            }
-            catch {}
-            
-            let fileManager2 = FileManager.default
-            let docsurl = try! fileManager2.url(for:.documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
-            let destinationFileUrl = docsurl.appendingPathComponent(file)
-            if fileManager2.fileExists(atPath: destinationFileUrl.path){
-                docController = UIDocumentInteractionController(url: destinationFileUrl)
-                docController.name = NSURL(fileURLWithPath: destinationFileUrl.path).lastPathComponent
-                docController.delegate = self as? UIDocumentInteractionControllerDelegate
-                docController.presentPreview(animated: true)
-                docController.presentOpenInMenu(from: self.view.frame, in: self.view, animated: true)
-            }
-            else {
-                print("document was not found")
-            }
-            /*
-             //reading
-             do {
-             let text2 = try String(contentsOf: fileURL, encoding: .utf8)
-             print(text2)
-             }
-             catch {/* error handling here */}*/
-        }
+    //광고 위치
+    func addBannerViewToView(_ bannerView: GADBannerView) {
+        bannerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(bannerView)
+        view.addConstraints(
+            [NSLayoutConstraint(item: bannerView,
+                                attribute: .bottom,
+                                relatedBy: .equal,
+                                toItem: bottomLayoutGuide,
+                                attribute: .top,
+                                multiplier: 1,
+                                constant: 0),
+             NSLayoutConstraint(item: bannerView,
+                                attribute: .centerX,
+                                relatedBy: .equal,
+                                toItem: view,
+                                attribute: .centerX,
+                                multiplier: 1,
+                                constant: 0)
+            ])
     }
     
     
-    /// Tells the delegate an ad request succeeded.
-    func interstitialDidReceiveAd(_ ad: GADInterstitial) {
-        print("interstitialDidReceiveAd")
-    }
-    
-    /// Tells the delegate an ad request failed.
-    func interstitial(_ ad: GADInterstitial, didFailToReceiveAdWithError error: GADRequestError) {
-        print("interstitial:didFailToReceiveAdWithError: \(error.localizedDescription)")
-        coin = 3
-    }
-    
-    /// Tells the delegate that an interstitial will be presented.
-    func interstitialWillPresentScreen(_ ad: GADInterstitial) {
-        print("interstitialWillPresentScreen")
-    }
-    
-    /// Tells the delegate the interstitial is to be animated off the screen.
-    func interstitialWillDismissScreen(_ ad: GADInterstitial) {
-        print("interstitialWillDismissScreen")
-    }
-    
-    /// Tells the delegate the interstitial had been animated off the screen.
-    func interstitialDidDismissScreen(_ ad: GADInterstitial) {
-        print("interstitialDidDismissScreen")
-        interstitial = GADInterstitial(adUnitID: code2)
-        let request = GADRequest()
-        interstitial.load(request)
-        interstitial.delegate = self
-        popup_go()
-    }
-    
-    /// Tells the delegate that a user click will open another app
-    /// (such as the App Store), backgrounding the current app.
-    func interstitialWillLeaveApplication(_ ad: GADInterstitial) {
-        print("interstitialWillLeaveApplication")
-    }
 }
